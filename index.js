@@ -3,7 +3,7 @@ const inquirer = require("inquirer");
 const cTable = require("console.table");
 const query = require("./query.js");
 
-// Inquirer questions menu
+// Initial function that holds the Inquirer questions menu
 const init = async () => {
     while (true) {
         // launches the prompt interface (inquiry session)
@@ -22,6 +22,25 @@ const init = async () => {
                 "Exit"
             ],
         });
+
+        // If else statement to select corresponding function based on user response
+        if (choice.menu === "View all Departments") {
+            //waits for the query function in server.js to carry out 
+            const data = await query.getAllDepartments();
+            // then logs the data to a table using cTable
+            console.table(data);
+
+        } else if (choice.menu === "View all Roles") {
+            const data = await query.getAllRoles();
+            console.table(data);
+
+        } else if (choice.menu === "View all Employees") {
+            const data = await query.getAllEmployees();
+            console.table(data);
+
+        
+
+        }
 
     };
 };
