@@ -1,7 +1,7 @@
 // Imports and require mysql2
 const mysql = require('mysql2');
 
-// Connects to database
+// Connects to the database
 const db = mysql.createConnection(
     {
       host: 'localhost',
@@ -14,13 +14,13 @@ const db = mysql.createConnection(
     console.log(`Connected to the classlist_db database.`)
 );
 
-// Gets department data from database
+// Gets department data from the database
 const getAllDepartments = async () => {
     const data = await db.promise().execute("SELECT * FROM `departments`");
     return data[0];
 };
 
-// Gets roles and department data from database
+// Gets roles and department data from the database
 const getAllRoles = async () => {
     const data = await db.promise().execute(
         "SELECT `roles`.`id`, `roles`.`title`, `departments`.`name` AS `departments`, `roles`.`salary`\
@@ -31,7 +31,7 @@ const getAllRoles = async () => {
     return data[0];
 };
 
-// Get employee, role and department data from database
+// Gets employees, roles and department data from the database
 const getAllEmployees = async () => {
     const data = await db.promise().execute(
         "SELECT `e`.`id`, `e`.`first_name`, `e`.`last_name`, `r`.`title`, `d`.`name` AS `departments`, `r`.`salary`, CONCAT(`m`.`first_name`, ' ', `m`.`last_name`) AS `manager`\
@@ -46,9 +46,16 @@ const getAllEmployees = async () => {
     return data[0];
 };
 
-// Add department to database
+// Adds a new department to the database
 const addDepartment = async (name) => {
     await db.promise().execute(
         "INSERT INTO `departments` (name)\
         VALUES (?)", [name]);
+};
+
+// Adds a new role to database
+const addRole = async (title, salary, dept) => {
+    await db.promise().execute(
+        "INSERT INTO `role` (title, salary, department_id)\
+        VALUES (?, ?, ?)", [title, salary, dept]);
 };
