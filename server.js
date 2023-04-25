@@ -56,6 +56,6 @@ const addDepartment = async (name) => {
 // Adds a new role to database
 const addRole = async (title, salary, dept) => {
     await db.promise().execute(
-        "INSERT INTO `role` (title, salary, department_id)\
+        "INSERT INTO `roles` (title, salary, department_id)\
         VALUES (?, ?, ?)", [title, salary, dept]);
 };
