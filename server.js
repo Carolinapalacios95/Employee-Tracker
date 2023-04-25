@@ -45,3 +45,10 @@ const getAllEmployees = async () => {
          ORDER BY `e`.`id` ASC");
     return data[0];
 };
+
+// Add department to database
+const addDepartment = async (name) => {
+    await db.promise().execute(
+        "INSERT INTO `departments` (name)\
+        VALUES (?)", [name]);
+};
