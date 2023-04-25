@@ -13,3 +13,10 @@ const db = mysql.createConnection(
     },
     console.log(`Connected to the classlist_db database.`)
   );
+
+// Gets department data from database
+const getAllDepartments = async () => {
+    const data = await db.promise().execute("SELECT * FROM `departments`");
+    return data[0];
+}
+
