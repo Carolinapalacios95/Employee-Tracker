@@ -53,9 +53,35 @@ const addDepartment = async (name) => {
         VALUES (?)", [name]);
 };
 
-// Adds a new role to database
+// Adds a new role to the database
 const addRole = async (title, salary, dept) => {
     await db.promise().execute(
         "INSERT INTO `roles` (title, salary, department_id)\
         VALUES (?, ?, ?)", [title, salary, dept]);
+};
+
+// Adds employee to the database
+const addEmployee = async (first, last, title, manager) => {
+    console.log({first, last, title, manager})
+    await db.promise().execute(
+        "INSERT INTO `employees` (first_name, last_name, role_id, manager_id)\
+        VALUES (?, ?, ?, ?)", [first, last, title, manager]);
+};
+
+// Updates an employee's role in the database
+const updateEmployee = async (title, id) => {
+    await db.promise().execute(
+        "UPDATE `employees`\
+        SET `role_id` = ?\
+        WHERE employees.id = ?", [title, id]);
+};
+
+module.exports = {
+    getAllDepartments,
+    getAllRoles,
+    getAllEmployees,
+    addDepartment,
+    addRole,
+    addEmployee,
+    updateEmployee,
 };
