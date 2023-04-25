@@ -54,9 +54,9 @@ const init = async () => {
             console.log("New department successfully added.");
 
         } else if (choice.menu === "Add a new Role") {
-            // Creates a const that will hold the departments array for user to select from in prompt
-            const dept_list = await query.getAllDepartments();
-            const dept_choices = dept_list.map(({ id, name }) => ({
+            // Creates a const that will hold the departments array for user to select from within prompt
+            const depts_list = await query.getAllDepartments();
+            const depts_choices = depts_list.map(({ id, name }) => ({
                 name: name,
                 value: id,
             }));
@@ -79,14 +79,65 @@ const init = async () => {
                     type: "list",
                     name: "dept",
                     message: "Please select the department you would like to add this role to.",
-                    choices: dept_choices,
+                    choices: depts_choices,
                 },
             ]);
             //passes the user input as parameters into the addRole function in server.js
             await query.addRole(newRole.title, newRole.salary, newRole.dept);
             console.log("New role successfully added.");
 
-        } 
+        } else if (choices === "Add a new Employee") {
+            // Creates a const that will hold the employees array for user to select from within prompt
+            const emps_list = await query.getAllEmployees();
+            const emps_choices = emps_list.map(({ id, first_name, last_name }) => ({
+                name: first_name + " " + last_name,
+                value: id,
+            }));
+            // Creates a const that will hold the roles array for user to select from within prompt
+            const roles_list = await query.getAllRoles();
+            const roles_choices = roles_list.map(({ id, title }) => ({
+                name: title,
+                value: id,
+            }));
+            //runs a new prompt
+            const newEmp = await inquirer.prompt([
+                {
+                    type: "input",
+                    name: "first_name",
+                    message: "Please enter the employee's first name",
+                    validate: (input) => {
+                        return input.length <= 30;
+                    },
+                },
+                {
+                    type: "input",
+                    name: "last_name",
+                    message: "Please enter the employee's last name",
+                    validate: (input) => {
+                        return input.length <= 30;
+                    },
+                },
+                {
+                    type: "list",
+                    name: "title",
+                    message: "Please enter the employee's role title",
+                    choices: roles_choices,
+                },
+                {
+                    type: "list",
+                    name: "manager",
+                    message: "Enter the employee's manager",
+                    choices: emps_choices,
+                },
+            ]);
+            //passes the user input as parameters into the addEmployee function in server.js
+            await query.addEmployee(
+                newEmp.first_name,
+                newEmp.last_name,
+                newEmp.title,
+                newEmp.manager
+            );
+        }
 
     };
 };
