@@ -86,7 +86,7 @@ const init = async () => {
             await query.addRole(newRole.title, newRole.salary, newRole.dept);
             console.log("New role successfully added.");
 
-        } else if (choice === "Add a new Employee") {
+        } else if (choice.menu === "Add a new Employee") {
             // Creates a const that will hold the employees array for user to select from within prompt
             const emps_list = await query.getAllEmployees();
             const emps_choices = emps_list.map(({ id, first_name, last_name }) => ({
