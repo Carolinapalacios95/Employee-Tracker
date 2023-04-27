@@ -86,7 +86,7 @@ const init = async () => {
             await query.addRole(newRole.title, newRole.salary, newRole.dept);
             console.log("New role successfully added.");
 
-        } else if (choices === "Add a new Employee") {
+        } else if (choice === "Add a new Employee") {
             // Creates a const that will hold the employees array for user to select from within prompt
             const emps_list = await query.getAllEmployees();
             const emps_choices = emps_list.map(({ id, first_name, last_name }) => ({
@@ -137,6 +137,36 @@ const init = async () => {
                 newEmp.title,
                 newEmp.manager
             );
+            console.log("New employee successfully added.")
+
+        } else if (choice.menu === "Update Employee Role") {
+        
+            const empls_list = await query.getAllEmployees();
+            const empls_choices = empls_list.map(({ id, first_name, last_name }) => ({
+                name: first_name + " " + last_name,
+                value: id,
+            }));
+            const roles_list = await query.getAllRoles();
+            const roles_choices = roles_list.map(({ id, title }) => ({
+                name: title,
+                value: id,
+            }));
+            const updateEmp = await inquirer.prompt([
+                {
+                    type: "list",
+                    name: "employee",
+                    message: "Please select an employee you wish to update.",
+                    choices: empls_choices,
+                },
+                {
+                    type: "list",
+                    name: "title",
+                    message: "Please select a new role for this employee.",
+                    choices: roles_choices,
+                },
+            ]);
+            await query.updateEmployee(updateEmp.title, updateEmp.employee);
+            console.log("Employee role successfully updated.")
         }
 
     };
