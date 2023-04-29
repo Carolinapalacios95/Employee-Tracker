@@ -18,8 +18,7 @@ const init = async () => {
                 "Add a new Department",
                 "Add a new Role",
                 "Add a new Employee",
-                "Update Employee Role",
-                "Exit"
+                "Update Employee Role"
             ],
         });
 
